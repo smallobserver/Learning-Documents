@@ -1397,7 +1397,7 @@ fun <T> Flow<T>.preHandleHttpResponse(
 不同于`Flow`与`ChannelFlow`中需要利用`FlowCollector`或`ProducerScope`来发送数据，由于`MutableSharedFlow`本身就拥有发送数据功能，使其用法更接近于日常使用`MutableList`。
 
 ```kotlin
-kotlin 代码解读复制代码 fun test() = runBlocking{
+ fun test() = runBlocking{
      val sharedFlow = MutableSharedFlow<String>()
      
      //假设处于另一个类，异步发送数据
@@ -1414,8 +1414,8 @@ kotlin 代码解读复制代码 fun test() = runBlocking{
 
 通常我们并不希望在消费者订阅端能够发送数据，只允许外部进行数据流订阅，此时就需要调用`asSharedFlow`函数，将可变的`MutableSharedFlow`转化为只读的`SharedFlow`。
 
-```scss
-scss 代码解读复制代码 fun test() = runBlocking{
+```kotlin
+ fun test() = runBlocking{
      ...
       //模拟在外部调用
      val readOnlySharedFlow = sharedFlow.asSharedFlow()
@@ -1455,8 +1455,8 @@ scss 代码解读复制代码 fun test() = runBlocking{
 
 如果在`SharedFlow`创建时设置`replay`属性，比如设置为2，就会缓存最新的两个值，此时运行结果就变成了：
 
-```yaml
-yaml 代码解读复制代码 val sharedFlow = MutableSharedFlow<String>(replay = 2)
+```kotlin
+val sharedFlow = MutableSharedFlow<String>(replay = 2)
  
  collect1 result : data1 receive 1
  collect1 result : data2 receive 1
@@ -1475,7 +1475,7 @@ yaml 代码解读复制代码 val sharedFlow = MutableSharedFlow<String>(replay 
 > 所以对于`SharedFlow`需要注意**消费者所在的协程内，后续任务是不会执行的**。
 
 ```kotlin
-kotlin 代码解读复制代码 fun test() = runBlocking{
+fun test() = runBlocking{
      ...
      delay(200)
      val job2 = scope.launch { //消费者单独一个协程
@@ -1492,7 +1492,7 @@ kotlin 代码解读复制代码 fun test() = runBlocking{
 如果再新增一个消费者，其就会继续接收上游新发送的数据，直到消费者所在协程被关闭。
 
 ```yaml
-yaml 代码解读复制代码 collect1 result : data3 receive 1
+ collect1 result : data3 receive 1
  collect2 result : data5 receive 2
  collect1 result : data4 receive 1
  collect2 result : data6 receive 2
@@ -1505,8 +1505,8 @@ yaml 代码解读复制代码 collect1 result : data3 receive 1
 
 但如果在`job2`的消费者中主动抛出异常：
 
-```php
-php 代码解读复制代码 readOnlySharedFlow.map {
+```kotlin
+ readOnlySharedFlow.map {
      if (it == "data6") throw Exception("test Exception")
      "$it receive 2"
  }
