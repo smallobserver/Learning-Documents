@@ -1562,7 +1562,7 @@ fun test() = runBlocking{
   但其可以配置在最后一个订阅者关闭后，**共享数据流上游停止的时间**（默认为立即停止），与**历史数据缓存清空时间**（默认为永远保留）。
 
   ```kotlin
-  kotlin 代码解读复制代码 public fun WhileSubscribed(
+  public fun WhileSubscribed(
        stopTimeoutMillis: Long = 0, //上游数据流延迟结束，ms
        replayExpirationMillis: Long = Long.MAX_VALUE //缓冲数据清空延迟,ms
    ): SharingStarted
@@ -1621,10 +1621,7 @@ fun test() = runBlocking{
 其中的`totalSize`变量，表示当前缓存数组长度 + 待发送的发射器数量
 
 ```java
-java
-
- 代码解读
-复制代码private val totalSize: Int get() = bufferSize + queueSize
+private val totalSize: Int get() = bufferSize + queueSize
 ```
 
 每次在数组添加新元素时，会检查缓存数组容量，默认会先创建**容量为2的数组**。
@@ -1682,7 +1679,7 @@ java
 反之，则调用`getPeekedValueLockedAt`函数，会从缓存中取出指定索引的值，并继续在下一次循环时取出数据。
 
 ```kotlin
-kotlin 代码解读复制代码 private fun getPeekedValueLockedAt(index: Long): Any? =
+private fun getPeekedValueLockedAt(index: Long): Any? =
          when (val item = buffer!!.getBufferAt(index)) {
              is Emitter -> item.value //等待添加到缓存的值
              else -> item
@@ -1702,7 +1699,7 @@ kotlin 代码解读复制代码 private fun getPeekedValueLockedAt(index: Long):
    > - 如果存在前面发射的挂起等待发送`Emitter`，则此时也需要添加在需要恢复的协程体数组内，并将其中的等待添加的数据添加到缓存数组内，移除对应索引的`Emitter`。
    > - 否则协程体数组内只有正在挂起等待数据的收集器协程体
 
-![updateCollectorIndexLocked内部实现.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1b7118591f6e4b798c9e25ba625ad1ef~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp?)
+![updateCollectorIndexLocked内部实现.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1b7118591f6e4b798c9e25ba625ad1ef~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp?) 
 
 ### 小结
 
@@ -1775,8 +1772,8 @@ kotlin 代码解读复制代码 private fun getPeekedValueLockedAt(index: Long):
 
 同时我们需要屏蔽外部发送污染数据，只对外部提供只读属性的`StateFlow`，此时就需要`asStateFlow`。
 
-```scss
-scss 代码解读复制代码 fun test() = runBlocking{
+```kotlin
+ fun test() = runBlocking{
      val stateFlow = MutableStateFlow(1)
      val readOnlyStateFlow = stateFlow.asStateFlow()
      
@@ -1903,7 +1900,7 @@ scss 代码解读复制代码 fun test() = runBlocking{
 作为视图专用的`LifecycleCoroutineScope`协程作用域，会在**视图销毁时取消协程作用域**，其中拥有多个`launchWith`系列函数。
 
 ```kotlin
-kotlin 代码解读复制代码 public val Lifecycle.coroutineScope: LifecycleCoroutineScope
+public val Lifecycle.coroutineScope: LifecycleCoroutineScope
      
  public abstract class LifecycleCoroutineScope internal constructor() : CoroutineScope {
      ...
@@ -1933,7 +1930,7 @@ kotlin 代码解读复制代码 public val Lifecycle.coroutineScope: LifecycleCo
 > 在`Android Studio 2021.1.1 Patch 1`中，如果在编译器自带的`DataBinding`版本内中使用`StateFlow`，自动生成的`Binding`文件内，依然还是会使用`launchWhenCreated`函数进行订阅收集数据流变化。
 >
 > ```kotlin
-> kotlin 代码解读复制代码 //ViewDataBindingKtx.kt
+> //ViewDataBindingKtx.kt
 >  internal class StateFlowListener(
 >           binder: ViewDataBinding?,
 >           localFieldId: Int,
@@ -1971,7 +1968,7 @@ kotlin 代码解读复制代码 public val Lifecycle.coroutineScope: LifecycleCo
 
 与其他方式的比较：（图片来自官方）
 
-![repeatOnLifecycle原理.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/38c1e08a56944c819888db338e83078b~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp?)
+![repeatOnLifecycle原理.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/38c1e08a56944c819888db338e83078b~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.awebp?) 
 
 对于共享数据流的`StateFlow`来说，每次订阅都只会获取最新的值，这也更接近`LiveData`的使用逻辑，也即所谓的**粘性数据**。
 
@@ -1992,7 +1989,7 @@ kotlin 代码解读复制代码 public val Lifecycle.coroutineScope: LifecycleCo
 于是`Flow`数据流就可以在`Activity`或`Fragment`中很方便的绑定视图生命周期
 
 ```kotlin
-kotlin 代码解读复制代码 override fun onCreate(savedInstanceState: Bundle?) {
+override fun onCreate(savedInstanceState: Bundle?) {
       super.onCreate(savedInstanceState)
       //模拟从viewModel开放出来的状态更新
       viewModel.readOnlyStateFlow
@@ -2022,10 +2019,9 @@ kotlin 代码解读复制代码 override fun onCreate(savedInstanceState: Bundle
 
 也唯有熟悉与理解其背后运作机制，才能更好在合适的场景中灵活运用。
 
-作者：yuPFeG1819
-链接：https://juejin.cn/post/7034454154999234574
-来源：稀土掘金
-著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+
+
 
 
 
