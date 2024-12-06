@@ -81,14 +81,24 @@ ForEach(array，()=>{}) 语法可以在build函数中使用，批量生成对应
   @Component装饰的自定义组件，其build()函数下的根节点唯一且必要，可以为非容器组件，其中ForEach禁止作为根节点。
 
 - ```typescript
-  @Entry@Componentstruct MyComponent {  build() {   
-      // 根节点唯一且必要，必须为容器组件    
-      Row() {      ChildComponent()     } 
-  }}
-  @Componentstruct ChildComponent {  build() {    
-      // 根节点唯一且必要，可为非容器组件    
-      Image('test.jpg')  
-  }}
+  @Entry
+  @Componentstruct 
+  MyComponent {  
+      build() {   
+        // 根节点唯一且必要，必须为容器组件    
+        Row() {      
+            ChildComponent()     
+        } 
+  	}
+  }
+  
+  @Componentstruct 
+  ChildComponent {  
+      build() {    
+      	// 根节点唯一且必要，可为非容器组件    
+      	Image('test.jpg')  
+  	}
+  }
   ```
   
 - 不允许声明本地变量，反例如下。
@@ -121,8 +131,13 @@ ForEach(array，()=>{}) 语法可以在build函数中使用，批量生成对应
 - 不允许调用没有用@Builder装饰的方法，允许系统组件的参数是TS方法的返回值。
 
   ```typescript
-  @Componentstruct ParentComponent {  doSomeCalculations() {  }
+  @Componentstruct 
+  ParentComponent {  
+      
+    doSomeCalculations() {  }
+      
     calcTextValue(): string {    return 'Hello World';  }
+    
     @Builder doSomeRender() {    Text(`Hello World`)  }
     build() {    Column() {      
         // 反例：不能调用没有用@Builder装饰的方法      
@@ -173,19 +188,25 @@ ForEach(array，()=>{}) 语法可以在build函数中使用，批量生成对应
 - 不允许直接改变状态变量，反例如下。详细分析见[@State常见问题：不允许在build里改状态变量](https://developer.huawei.com/consumer/cn/doc/harmonyos-guides-V5/arkts-state-V5#不允许在build里改状态变量)
 
   ```typescript
-  @Componentstruct CompA {  @State col1: Color = Color.Yellow;  @State col2: Color = Color.Green;  @State count: number = 1;  build() {   
-      Column() {      
-      	// 应避免直接在Text组件内改变count的值      
-      	Text(`${this.count++}`)        
-          .width(50)        
-          .height(50)        
-          .fontColor(this.col1)        
-          .onClick(() => {          
-          	this.col2 = Color.Red;        
-      	})      
-      	Button("change col1").onClick(() =>{
-          	this.col1 = Color.Pink;      
-      	})    
+  @Componentstruct
+  CompA {  
+      @State col1: Color = Color.Yellow;  
+      @State col2: Color = Color.Green;  
+      @State count: number = 1;  
+      
+      build() {   
+          Column() {      
+              // 应避免直接在Text组件内改变count的值      
+              Text(`${this.count++}`)        
+              .width(50)        
+              .height(50)        
+              .fontColor(this.col1)        
+              .onClick(() => {          
+                  this.col2 = Color.Red;        
+              })      
+              Button("change col1").onClick(() =>{
+                  this.col1 = Color.Pink;      
+              })    
   	}.backgroundColor(this.col2)  
   }}
   ```

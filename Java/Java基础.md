@@ -50,7 +50,7 @@ Collection接口是Set,Queue,List的父接口。Collection接口中定义了多�
 
 Iterator接口经常被称作迭代器，它是Collection接口的父接口。但Iterator主要用于遍历集合中的元素。 Iterator接口中主要定义了2个方法：
 
-![img](http://upload-images.jianshu.io/upload_images/3985563-63737a2d81713a47.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![img](http://upload-images.jianshu.io/upload_images/3985563-63737a2d81713a47.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) 
 
 下面程序简单示范了通过Iterator对象逐个获取元素的逻辑。
 
@@ -184,7 +184,7 @@ Map用户保存具有映射关系的数据，因此Map集合里保存着两组�
 
 如下图所描述，key和value之间存在单向一对一关系，即通过指定的key,总能找到唯一的、确定的value。从Map中取出数据时，只要给出指定的key，就可以取出对应的value。
 
-![img](http://upload-images.jianshu.io/upload_images/3985563-51f6c5278df941fe.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![img](http://upload-images.jianshu.io/upload_images/3985563-51f6c5278df941fe.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) 
 
 #### 2.Map集合与Set集合、List集合的关系
 
@@ -198,11 +198,11 @@ Map用户保存具有映射关系的数据，因此Map集合里保存着两组�
 
 #### 3.接口中定义的方法
 
-![img](http://upload-images.jianshu.io/upload_images/3985563-d2494516e1d68a6d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![img](http://upload-images.jianshu.io/upload_images/3985563-d2494516e1d68a6d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) 
 
 Map中还包括一个内部类Entry，该类封装了一个key-value对。Entry包含如下三个方法：
 
-![img](http://upload-images.jianshu.io/upload_images/3985563-ecedd1880af9d40a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![img](http://upload-images.jianshu.io/upload_images/3985563-ecedd1880af9d40a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) 
 
 Map集合最典型的用法就是成对地添加、删除key-value对，然后就是判断该Map中是否包含指定key，是否包含指定value，也可以通过Map提供的keySet()方法获取所有key组成的集合，然后使用foreach循环来遍历Map的所有key，根据key即可遍历所有的value。下面程序代码示范Map的一些基本功能：
 
@@ -795,7 +795,7 @@ for(Entry<Integer, String> entry : tmap.entrySet()) {
 
 其大致的结构如下所示：
 ![treemap](https://cloud.githubusercontent.com/assets/1736354/7041463/05ee676a-de0c-11e4-9412-4c6964931e43.png)
-使用红黑树的好处是能够使得树具有不错的平衡性，这样操作的速度就可以达到log(n)的水平了。具体红黑树的实现不在这里赘述，可以参考[数据结构之红黑树](http://dongxicheng.org/structure/red-black-tree/)、[wikipedia-红黑树](http://zh.wikipedia.org/wiki/红黑树)等的实现。
+使用红黑树的好处是能够使得树具有不错的平衡性，这样操作的速度就可以达到log(n)的水平了。具体红黑树的实现不在这里赘述，可以参考[wikipedia-红黑树](http://zh.wikipedia.org/wiki/红黑树)等的实现。
 
 ### 二、 put函数
 
