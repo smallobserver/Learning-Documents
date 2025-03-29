@@ -794,7 +794,7 @@ private static AppInitializer sInstance;
 
 
 ```dart
-@NonNull
+	@NonNull
     @SuppressWarnings("unused")
     public <T> T initializeComponent(@NonNull Class<? extends Initializer<T>> component) {
         return doInitialize(component, new HashSet<Class<?>>());
